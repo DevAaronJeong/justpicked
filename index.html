@@ -47,7 +47,7 @@
     }
 
     @keyframes marquee {
-      0%   { transform: translate(0, 0); }
+      0% { transform: translate(0, 0); }
       100% { transform: translate(-100%, 0); }
     }
 
@@ -137,7 +137,6 @@
       id="item-table"
       src="https://script.google.com/macros/s/AKfycbw3Uvy3qhH2G2B1X9JXkbZxs7K98WQh3X_Ubge7kN4M_GjlXeQsZ0GYaPCHW_faSs1X8w/exec"
       scrolling="no"
-      onload="resizeIframe()"
     ></iframe>
   </main>
 
@@ -146,12 +145,6 @@
   </footer>
 
   <script>
-    function resizeIframe() {
-      const iframe = document.getElementById('item-table');
-      if (!iframe) return;
-      iframe.contentWindow.postMessage({ type: 'requestHeight' }, '*');
-    }
-
     window.addEventListener('message', function(event) {
       if (event.data.type === 'resize') {
         const iframe = document.getElementById('item-table');
