@@ -14,7 +14,7 @@
   <style>
     body {
       font-family: 'Apple SD Gothic Neo', 'Pretendard', sans-serif;
-      background: linear-gradient(to bottom, #fffaf5, #ffffff);
+      background-color: #fffaf5;
       margin: 0;
       padding: 0;
       color: #4b2e2e;
@@ -55,7 +55,6 @@
       text-align: center;
       font-size: 24px;
       margin: 24px auto;
-      animation: fadein 1s ease-in-out;
     }
 
     nav {
@@ -103,7 +102,6 @@
       max-width: 960px;
       margin: 0 auto 80px;
       background-color: transparent;
-      transition: all 0.3s ease;
     }
 
     footer {
@@ -111,11 +109,6 @@
       margin: 40px auto;
       font-size: 13px;
       color: #888;
-    }
-
-    @keyframes fadein {
-      from { opacity: 0; transform: translateY(-10px); }
-      to   { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -133,7 +126,7 @@
       <button onclick="filterCategory('all')">전체보기</button>
       <button onclick="filterCategory('fruit')">🍎 과일</button>
       <button onclick="filterCategory('snack')">🍪 간식</button>
-      <button onclick="filterCategory('kitchen')">🏦 주방용품</button>
+      <button onclick="filterCategory('kitchen')">🛋 주방용품</button>
     </nav>
 
     <div class="search-filter">
@@ -152,32 +145,26 @@
   </footer>
 
   <script>
-    const iframe = document.getElementById('item-table');
+    // iframe 자동 높이 조정
     window.addEventListener('message', function(event) {
       if (event.data.type === 'resize') {
-        iframe.style.height = event.data.height + 'px';
+        const iframe = document.getElementById('item-table');
+        if (iframe) {
+          iframe.style.height = event.data.height + 'px';
+        }
       }
     });
 
-    function filterCategory(category) {
-      iframe.contentWindow.postMessage({ type: 'filter', category: category }, '*');
+    // 필터 기능 (현재는 안내 메시지)
+    function filterCategory(cat) {
+      alert(`'${cat}' 카테고리 필터는 iframe 내부 구현 필요`);
     }
 
+    // 검색 기능 (현재는 로그)
     function searchItems() {
       const keyword = document.getElementById('searchInput').value;
-      iframe.contentWindow.postMessage({ type: 'search', keyword: keyword }, '*');
+      console.log(`검색: ${keyword}`);
     }
   </script>
-  <script>
-  window.addEventListener('message', function(event) {
-    if (event.data.type === 'resize') {
-      const iframe = document.getElementById('item-table');
-      if (iframe) {
-        iframe.style.height = event.data.height + 'px';
-      }
-    }
-  });
-</script>
-
 </body>
 </html>
