@@ -147,18 +147,17 @@
 
   <!-- 스크립트: iframe 높이 자동 조절 -->
   <script>
-    window.addEventListener('message', function(event) {
-      if (
-        (event.origin.includes("script.googleusercontent.com") ||
-         event.origin.includes("script.google.com")) &&
-        event.data
-      ) {
+    window.addEventListener("message", function (event) {
+      console.log("📨 메시지 수신됨:", event.origin, event.data);
+    
+      const isTrustedOrigin =
+        event.origin.includes("script.googleusercontent.com") ||
+        event.origin.includes("script.google.com");
+    
+      if (isTrustedOrigin && event.data) {
         const iframe = document.getElementById("item-table");
         const h = event.data.height || event.data; // 숫자 또는 객체 모두 대응
         if (h) iframe.style.height = h + "px";
-      }
-        const iframe = document.getElementById('item-table');
-        iframe.style.height = event.data.height + 'px';
       }
     });
 
