@@ -8,13 +8,13 @@
   <meta property="og:title" content="오늘 이것만 있어도 꽤 괜찮은 하루" />
   <meta property="og:description" content="감성 담은 쿠팡 추천 아이템 허브 ✨ 매일 업데이트 되는 추천템 셀렉션" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://yourgithubusername.github.io/justpicked" />
+  <meta property="og:url" content="https://devaaronjeong.github.io/justpicked" />
   <meta property="og:image" content="https://yourdomain.com/thumbnail.jpg" />
   <title>✨ 오늘 이것만 있어도 꽤 괜찮은 하루 ✨</title>
   <style>
     body {
       font-family: 'Apple SD Gothic Neo', 'Pretendard', sans-serif;
-      background-color: #fffaf5;
+      background: linear-gradient(to bottom, #fffaf5, #ffffff);
       margin: 0;
       padding: 0;
       color: #4b2e2e;
@@ -55,6 +55,7 @@
       text-align: center;
       font-size: 24px;
       margin: 24px auto;
+      animation: fadein 1s ease-in-out;
     }
 
     nav {
@@ -102,6 +103,7 @@
       max-width: 960px;
       margin: 0 auto 80px;
       background-color: transparent;
+      transition: all 0.3s ease;
     }
 
     footer {
@@ -109,6 +111,11 @@
       margin: 40px auto;
       font-size: 13px;
       color: #888;
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -126,7 +133,7 @@
       <button onclick="filterCategory('all')">전체보기</button>
       <button onclick="filterCategory('fruit')">🍎 과일</button>
       <button onclick="filterCategory('snack')">🍪 간식</button>
-      <button onclick="filterCategory('kitchen')">🛋 주방용품</button>
+      <button onclick="filterCategory('kitchen')">🏦 주방용품</button>
     </nav>
 
     <div class="search-filter">
@@ -137,7 +144,6 @@
       id="item-table"
       src="https://script.google.com/macros/s/AKfycbw3Uvy3qhH2G2B1X9JXkbZxs7K98WQh3X_Ubge7kN4M_GjlXeQsZ0GYaPCHW_faSs1X8w/exec"
       scrolling="no"
-      onload="resizeIframe()"
     ></iframe>
   </main>
 
@@ -146,24 +152,20 @@
   </footer>
 
   <script>
-    function resizeIframe() {
-      const iframe = document.getElementById('item-table');
-      window.addEventListener('message', function(event) {
-        if (event.data.type === 'resize') {
-          iframe.style.height = event.data.height + 'px';
-        }
-      });
-    }
+    const iframe = document.getElementById('item-table');
+    window.addEventListener('message', function(event) {
+      if (event.data.type === 'resize') {
+        iframe.style.height = event.data.height + 'px';
+      }
+    });
 
-    function filterCategory(cat) {
-      // placeholder - 실제 필터는 iframe 내부 구현 필요
-      alert(`'① \${cat}' 카테고리 필터는 iframe 내 구현 필요`);
+    function filterCategory(category) {
+      iframe.contentWindow.postMessage({ type: 'filter', category: category }, '*');
     }
 
     function searchItems() {
       const keyword = document.getElementById('searchInput').value;
-      // placeholder - 실제 검색은 iframe 내 구현 필요
-      console.log(`검색: \${keyword}`);
+      iframe.contentWindow.postMessage({ type: 'search', keyword: keyword }, '*');
     }
   </script>
 </body>
