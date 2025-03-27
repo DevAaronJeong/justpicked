@@ -168,5 +168,16 @@
       iframe.contentWindow.postMessage({ type: 'search', keyword: keyword }, '*');
     }
   </script>
+  <script>
+  window.addEventListener('message', function(event) {
+    if (event.data.type === 'resize') {
+      const iframe = document.getElementById('item-table');
+      if (iframe) {
+        iframe.style.height = event.data.height + 'px';
+      }
+    }
+  });
+</script>
+
 </body>
 </html>
