@@ -148,7 +148,15 @@
   <!-- 스크립트: iframe 높이 자동 조절 -->
   <script>
     window.addEventListener('message', function(event) {
-      if (event.origin.includes("script.google.com") && event.data.height) {
+      if (
+        (event.origin.includes("script.googleusercontent.com") ||
+         event.origin.includes("script.google.com")) &&
+        event.data
+      ) {
+        const iframe = document.getElementById("item-table");
+        const h = event.data.height || event.data; // 숫자 또는 객체 모두 대응
+        if (h) iframe.style.height = h + "px";
+      }
         const iframe = document.getElementById('item-table');
         iframe.style.height = event.data.height + 'px';
       }
