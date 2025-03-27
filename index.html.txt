@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="쿠팡 파트너스 감성 추천템 허브 - 오늘 이것만 있어도 꽤 괜찮은 하루" />
+  <meta name="keywords" content="쿠팡, 추천템, 파트너스, 쇼핑, 감성, 테이블, justpicked, cozycart" />
+  <meta property="og:title" content="오늘 이것만 있어도 꽤 괜찮은 하루" />
+  <meta property="og:description" content="감성 담은 쿠팡 추천 아이템 허브 ✨ 매일 업데이트 되는 추천템 셀렉션" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yourgithubusername.github.io/justpicked" />
+  <meta property="og:image" content="https://yourdomain.com/thumbnail.jpg" />
+  <title>✨ 오늘 이것만 있어도 꽤 괜찮은 하루 ✨</title>
+  <style>
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Pretendard', sans-serif;
+      background-color: #fffaf5;
+      margin: 0;
+      padding: 0;
+      color: #4b2e2e;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background-color: #fff4f4;
+      border-bottom: 1px solid #f0dede;
+      padding: 10px 0;
+    }
+
+    .marquee {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      box-sizing: border-box;
+      padding: 8px 0;
+      background: #ffe7ec;
+      color: #a14657;
+      font-size: 13px;
+    }
+
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 20s linear infinite;
+    }
+
+    @keyframes marquee {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(-100%, 0); }
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 24px;
+      margin: 24px auto;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    nav button {
+      background-color: #ffeef0;
+      color: #b1505e;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    nav button:hover {
+      background-color: #ffc8d2;
+    }
+
+    .search-filter {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .search-filter input {
+      padding: 8px;
+      width: 220px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 14px;
+    }
+
+    iframe {
+      display: block;
+      border: none;
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto 80px;
+      background-color: transparent;
+    }
+
+    footer {
+      text-align: center;
+      margin: 40px auto;
+      font-size: 13px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="marquee">
+      <span>✨ 이 게시물은 쿠팡 파트너스 활동의 일환으로 일정액의 수수료를 제공받습니다. (추가 비용 없음)</span>
+    </div>
+  </header>
+
+  <main>
+    <h1>✨ 오늘 이것만 있어도 꽤 괜찮은 하루 ✨</h1>
+
+    <nav>
+      <button onclick="filterCategory('all')">전체보기</button>
+      <button onclick="filterCategory('fruit')">🍎 과일</button>
+      <button onclick="filterCategory('snack')">🍪 간식</button>
+      <button onclick="filterCategory('kitchen')">🛋 주방용품</button>
+    </nav>
+
+    <div class="search-filter">
+      <input type="text" id="searchInput" oninput="searchItems()" placeholder="상품명을 입력하세요...">
+    </div>
+
+    <iframe
+      id="item-table"
+      src="https://script.google.com/macros/s/AKfycbw3Uvy3qhH2G2B1X9JXkbZxs7K98WQh3X_Ubge7kN4M_GjlXeQsZ0GYaPCHW_faSs1X8w/exec"
+      scrolling="no"
+      onload="resizeIframe()"
+    ></iframe>
+  </main>
+
+  <footer>
+    © 2025 JustPicked | Powered by Coupang Partners
+  </footer>
+
+  <script>
+    function resizeIframe() {
+      const iframe = document.getElementById('item-table');
+      window.addEventListener('message', function(event) {
+        if (event.data.type === 'resize') {
+          iframe.style.height = event.data.height + 'px';
+        }
+      });
+    }
+
+    function filterCategory(cat) {
+      // placeholder - 실제 필터는 iframe 내부 구현 필요
+      alert(`'① \${cat}' 카테고리 필터는 iframe 내 구현 필요`);
+    }
+
+    function searchItems() {
+      const keyword = document.getElementById('searchInput').value;
+      // placeholder - 실제 검색은 iframe 내 구현 필요
+      console.log(`검색: \${keyword}`);
+    }
+  </script>
+</body>
+</html>
