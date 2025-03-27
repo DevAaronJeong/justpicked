@@ -146,18 +146,27 @@
   </footer>
 
   <!-- 스크립트: iframe 높이 자동 조절 -->
-  <script>
+ <script>
     window.addEventListener("message", function (event) {
       console.log("📨 메시지 수신됨:", event.origin, event.data);
-    
+
       const isTrustedOrigin =
         event.origin.includes("script.googleusercontent.com") ||
         event.origin.includes("script.google.com");
-    
-      if (isTrustedOrigin && event.data) {
+
+      if (isTrustedOrigin) {
         const iframe = document.getElementById("item-table");
-        const h = event.data.height || event.data; // 숫자 또는 객체 모두 대응
-        if (h) iframe.style.height = h + "px";
+        let height;
+
+        if (typeof event.data === "number") {
+          height = event.data;
+        } else if (typeof event.data === "object" && event.data.height) {
+          height = event.data.height;
+        }
+
+        if (height && iframe) {
+          iframe.style.height = height + "px";
+        }
       }
     });
 
