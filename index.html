@@ -151,6 +151,9 @@
 // 👇 iframe을 미리 정의
 const iframe = document.getElementById("item-table");
 
+let iframeReady = false;
+let latestCategory = "all";
+
 window.addEventListener("message", function (event) {
   const allowedOrigins = [
     "https://devaaronjeong.github.io",
@@ -173,17 +176,12 @@ window.addEventListener("message", function (event) {
   }
 
 
-  // ✅ iframe이 준비되면 카테고리 다시 보냄
-  let iframeReady = false;
-  let latestCategory = "all";
-  
-  window.addEventListener("message", function (event) {
-    if (event.data.type === "iframeReady") {
-      console.log("✅ iframe에서 준비 완료 수신");
-      iframeReady = true;
-      // 마지막으로 클릭한 카테고리 다시 전달
-      iframe.contentWindow.postMessage({ category: latestCategory }, "https://script.google.com");
-    }
+  if (data.type === "iframeReady") {
+    console.log("✅ iframe에서 준비 완료 수신");
+    iframeReady = true;
+    sendCategoryToIframe(latestCategory);
+    return;
+  }
   
   if (data.type === "categoryList" && Array.isArray(data.categories)) {
     const nav = document.getElementById("category-nav");
@@ -207,7 +205,7 @@ function sendCategoryToIframe(category) {
   latestCategory = category;
   if (iframeReady) {
     console.log("📤 부모 → iframe: 카테고리 전송:", category);
-    iframe.contentWindow.postMessage({ category }, "https://script.google.com");
+    iframe.contentWindow.postMessage({ category }, "*");
   } else {
     console.warn("⚠️ iframe 아직 로드되지 않음. 카테고리 보류:", category);
   }
