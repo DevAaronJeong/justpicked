@@ -171,42 +171,7 @@
     ];
     const randomIndex = Math.floor(Math.random() * messages.length);
     document.getElementById("daily-message").textContent = messages[randomIndex];
-  </script>
-  <script>
-  window.addEventListener("message", function (event) {
-    const trusted = ["script.googleusercontent.com", "script.google.com"];
-    if (!trusted.some(origin => event.origin.includes(origin))) return;
 
-    const iframe = document.getElementById("item-table");
-
-    if (typeof event.data === "object") {
-      if (event.data.height) {
-        iframe.style.height = event.data.height + "px";
-      }
-
-      if (event.data.type === "categoryList") {
-        const nav = document.getElementById("category-nav");
-        nav.innerHTML = "";
-
-        const allBtn = document.createElement("button");
-        allBtn.textContent = "전체보기";
-        allBtn.onclick = () => {
-          iframe.contentWindow.postMessage({ category: "all" }, "*");
-        };
-        nav.appendChild(allBtn);
-
-        event.data.categories.forEach(cat => {
-          const btn = document.createElement("button");
-          btn.textContent = cat;
-          btn.onclick = () => {
-            iframe.contentWindow.postMessage({ category: cat }, "*");
-          };
-          nav.appendChild(btn);
-        });
-      }
-    }
-  });
-</script>
 <script>
 const iframe = document.getElementById("item-table");
 
