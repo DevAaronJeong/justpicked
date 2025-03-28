@@ -207,5 +207,49 @@
     }
   });
 </script>
+<script>
+const iframe = document.getElementById("item-table");
+
+// iframe 메시지 수신 처리
+window.addEventListener("message", function (event) {
+  const trustedOrigins = [
+    "https://script.googleusercontent.com",
+    "https://script.google.com"
+  ];
+
+  if (!trustedOrigins.includes(event.origin)) return;
+
+  // 카테고리 필터링용 높이 조절
+  if (event.data.height) {
+    iframe.style.height = event.data.height + "px";
+  }
+
+  // 카테고리 목록 수신
+  if (event.data.categories) {
+    const nav = document.getElementById("category-nav");
+    nav.innerHTML = ""; // 기존 버튼 초기화
+
+    // 전체보기 버튼 추가
+    const allBtn = document.createElement("button");
+    allBtn.textContent = "전체보기";
+    allBtn.onclick = () => postCategoryToIframe("all");
+    nav.appendChild(allBtn);
+
+    // 동적 카테고리 버튼 생성
+    event.data.categories.forEach(cat => {
+      const btn = document.createElement("button");
+      btn.textContent = cat;
+      btn.onclick = () => postCategoryToIframe(cat);
+      nav.appendChild(btn);
+    });
+  }
+});
+
+// iframe에 카테고리 전송
+function postCategoryToIframe(category) {
+  iframe.contentWindow.postMessage({ category }, "*");
+}
+</script>
+
 </body>
 </html>
