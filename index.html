@@ -153,9 +153,9 @@ const iframe = document.getElementById("item-table");
 
 window.addEventListener("message", function (event) {
   const allowedOrigins = [
-    "devaaronjeong.github.io",
-    "script.google.com",
-    "script.googleusercontent.com"
+    "https://devaaronjeong.github.io",
+    "https://script.google.com",
+    "https://script.googleusercontent.com"
   ];
 
   if (!allowedOrigins.some(domain => event.origin.includes(domain))) {
