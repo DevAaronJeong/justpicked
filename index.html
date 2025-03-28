@@ -135,19 +135,17 @@
     © 2025 JustPicked | Powered by Coupang Partners
   </footer>
 <script>
-  const iframe = document.getElementById("item-table");
-
-  window.addEventListener("message", function (event) {
-    if (!event.origin.includes("googleusercontent.com") && 
-        !event.origin.includes("script.google.com") && 
-        !event.origin.includes("devaaronjeong.github.io")) {
-      console.warn("🚫 메시지 차단 - origin 불신:", event.origin);
-      return;
-    }
-  
-    // 기존 로직 이어서 실행
-  });
-
+    window.addEventListener("message", function (event) {
+      const allowedOrigins = [
+        "devaaronjeong.github.io",
+        "script.google.com",
+        "googleusercontent.com"
+      ];
+    
+      if (!allowedOrigins.some(domain => event.origin.includes(domain))) {
+        console.warn("🚫 메시지 차단 - origin 불신:", event.origin);
+        return;
+      }
 
     const data = event.data;
 
