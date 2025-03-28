@@ -94,7 +94,12 @@
       border: 1px solid #ddd;
       font-size: 14px;
     }
-
+    
+    .iframe-wrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+    
     iframe {
       width: 100vw;
       max-width: 100%;
@@ -134,6 +139,7 @@
     </div>
 
     <!-- iframe 삽입 -->
+    <div class="iframe-wrapper">
     <iframe
       id="item-table"
       src="https://script.google.com/macros/s/AKfycbw3Uvy3qhH2G2B1X9JXkbZxs7K98WQh3X_Ubge7kN4M_GjlXeQsZ0GYaPCHW_faSs1X8w/exec"
@@ -143,6 +149,7 @@
       referrerpolicy="no-referrer"
       style="width: 100%; min-width: 720px; border: none; display: block; margin: 0 auto;"
     ></iframe>
+    </div>
   </main>
 
   <footer>
