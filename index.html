@@ -143,7 +143,7 @@
       "https://script.googleusercontent.com",
       "https://script.google.com"
     ];
-    if (!trustedOrigins.some(origin => event.origin.startsWith(origin))) {
+    if (!trustedOrigins.some(origin => event.origin.includes(origin))) {
       console.warn("🚫 메시지 차단 - origin 불신:", event.origin);
       return;
     }
