@@ -135,110 +135,91 @@
     © 2025 JustPicked | Powered by Coupang Partners
   </footer>
 
-  <!-- 스크립트: iframe 높이 자동 조절 -->
- <script>
-    window.addEventListener("message", function (event) {
-      console.log("📨 메시지 수신됨:", event.origin, event.data);
-
-      const isTrustedOrigin =
-        event.origin.includes("script.googleusercontent.com") ||
-        event.origin.includes("script.google.com");
-
-      if (isTrustedOrigin) {
-        const iframe = document.getElementById("item-table");
-        let height;
-
-        if (typeof event.data === "number") {
-          height = event.data;
-        } else if (typeof event.data === "object" && event.data.height) {
-          height = event.data.height;
-        }
-
-        if (height && iframe) {
-          iframe.style.height = height + "px";
-        }
-      }
-    });
-
-    // ✅ 랜덤 메시지
-    const messages = [
-      "🍓 오늘은 딸기 어때요?",
-      "🍌 바나나는 아침 대용으로 최고!",
-      "🍅 제철 과일로 건강 챙기세요 🍊",
-      "🥤 단백질 보충, 지금이 타이밍!",
-      "🧼 깨끗한 주방을 위한 추천템 ✨",
-      "💖 오늘은 나를 위한 쇼핑 데이!"
-    ];
-    const randomIndex = Math.floor(Math.random() * messages.length);
-    document.getElementById("daily-message").textContent = messages[randomIndex];
-
 <script>
-const iframe = document.getElementById("item-table");
+  const iframe = document.getElementById("item-table");
 
-// iframe 메시지 수신 처리
-window.addEventListener("message", function (event) {
-  const trustedOrigins = [
-    "https://script.googleusercontent.com",
-    "https://script.google.com"
+  // ✅ 메시지 수신 (높이 조절 + 카테고리 버튼 처리)
+  window.addEventListener("message", function (event) {
+    const trustedOrigins = [
+      "script.googleusercontent.com",
+      "script.google.com"
+    ];
+
+    if (!trustedOrigins.some(origin => event.origin.includes(origin))) {
+      console.warn("🚫 메시지 차단 - origin 불신:", event.origin);
+      return;
+    }
+
+    const data = event.data;
+
+    // 🔁 높이 조절
+    if (data.height && iframe) {
+      iframe.style.height = data.height + "px";
+    }
+
+    // 🔁 카테고리 목록 수신 → 버튼 생성
+    if (Array.isArray(data.categories)) {
+      const nav = document.getElementById("category-nav");
+      nav.innerHTML = "";
+
+      // ✅ 전체보기 버튼
+      const allBtn = document.createElement("button");
+      allBtn.textContent = "✨ 전체보기";
+      allBtn.onclick = () => postCategoryToIframe("all");
+      nav.appendChild(allBtn);
+
+      // ✅ 카테고리별 버튼
+      data.categories.forEach(cat => {
+        const btn = document.createElement("button");
+        btn.textContent = `${categoryToEmoji(cat)} ${categoryToLabel(cat)}`;
+        btn.onclick = () => postCategoryToIframe(cat);
+        nav.appendChild(btn);
+      });
+    }
+  });
+
+  // ✅ iframe으로 카테고리 전송
+  function postCategoryToIframe(category) {
+    iframe.contentWindow.postMessage({ category }, "*");
+  }
+
+  // ✅ 감성 텍스트 변환
+  function categoryToLabel(key) {
+    const labels = {
+      fruit: "과일",
+      snack: "간식",
+      kitchen: "주방용품",
+      protein: "단백질",
+      drink: "음료"
+    };
+    return labels[key] || key;
+  }
+
+  // ✅ 이모지 변환
+  function categoryToEmoji(key) {
+    const emojis = {
+      fruit: "🍎",
+      snack: "🍪",
+      kitchen: "🧼",
+      protein: "💪",
+      drink: "🥤"
+    };
+    return emojis[key] || "🛒";
+  }
+
+  // ✅ 랜덤 메시지
+  const messages = [
+    "🍓 오늘은 딸기 어때요?",
+    "🍌 바나나는 아침 대용으로 최고!",
+    "🍅 제철 과일로 건강 챙기세요 🍊",
+    "🥤 단백질 보충, 지금이 타이밍!",
+    "🧼 깨끗한 주방을 위한 추천템 ✨",
+    "💖 오늘은 나를 위한 쇼핑 데이!"
   ];
-
-  if (!trustedOrigins.includes(event.origin)) return;
-
-  // 🔁 높이 조정
-  if (event.data.height) {
-    iframe.style.height = event.data.height + "px";
-  }
-
-  // 🔁 카테고리 목록 수신
-  if (event.data.categories && Array.isArray(event.data.categories)) {
-    const nav = document.getElementById("category-nav");
-    nav.innerHTML = ""; // 기존 버튼 제거
-
-    // ✅ 전체보기 버튼
-    const allBtn = document.createElement("button");
-    allBtn.textContent = "✨ 전체보기";
-    allBtn.onclick = () => postCategoryToIframe("all");
-    nav.appendChild(allBtn);
-
-    // ✅ 카테고리별 버튼 생성
-    event.data.categories.forEach(cat => {
-      const btn = document.createElement("button");
-      btn.textContent = `${categoryToEmoji(cat)} ${categoryToLabel(cat)}`;
-      btn.onclick = () => postCategoryToIframe(cat);
-      nav.appendChild(btn);
-    });
-  }
-});
-
-// ✅ iframe으로 카테고리 전송
-function postCategoryToIframe(category) {
-  iframe.contentWindow.postMessage({ category }, "*");
-}
-
-// ✅ 감성 이름 변환 (필요 시 수정)
-function categoryToLabel(key) {
-  const labels = {
-    fruit: "과일",
-    snack: "간식",
-    kitchen: "주방용품",
-    protein: "단백질",
-    drink: "음료"
-  };
-  return labels[key] || key;
-}
-
-// ✅ 이모지 변환
-function categoryToEmoji(key) {
-  const emojis = {
-    fruit: "🍎",
-    snack: "🍪",
-    kitchen: "🧼",
-    protein: "💪",
-    drink: "🥤"
-  };
-  return emojis[key] || "🛒";
-}
+  document.getElementById("daily-message").textContent =
+    messages[Math.floor(Math.random() * messages.length)];
 </script>
+
 
 
 </body>
