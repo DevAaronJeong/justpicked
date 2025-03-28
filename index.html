@@ -135,6 +135,9 @@
     © 2025 JustPicked | Powered by Coupang Partners
   </footer>
 <script>
+// 👇 iframe을 미리 정의
+const iframe = document.getElementById("item-table");
+
 window.addEventListener("message", function (event) {
   const allowedOrigins = [
     "devaaronjeong.github.io",
@@ -148,7 +151,6 @@ window.addEventListener("message", function (event) {
   }
 
   const data = event.data;
-  const iframe = document.getElementById("item-table");
 
   if (data.height && iframe) {
     iframe.style.height = data.height + "px";
@@ -173,7 +175,6 @@ window.addEventListener("message", function (event) {
 });
 
 function postCategoryToIframe(category) {
-  const iframe = document.getElementById("item-table");
   iframe.contentWindow.postMessage({ category }, "*");
 }
 
