@@ -57,7 +57,7 @@
       margin: 24px auto;
     }
 
-    nav {
+    #category-nav {
       display: flex;
       justify-content: center;
       gap: 10px;
@@ -65,7 +65,7 @@
       margin-bottom: 20px;
     }
 
-    nav button {
+    #category-nav button {
       background-color: #ffeef0;
       color: #b1505e;
       border: none;
@@ -75,7 +75,7 @@
       font-size: 14px;
     }
 
-    nav button:hover {
+    #category-nav button:hover {
       background-color: #ffc8d2;
     }
 
@@ -114,12 +114,7 @@
 
     <div id="daily-message" style="text-align: center; font-size: 16px; margin-top: -10px; margin-bottom: 30px; color: #5f3d47;"></div>
 
-    <nav>
-      <button onclick="filterCategory('all')">전체보기</button>
-      <button onclick="filterCategory('fruit')">🍎 과일</button>
-      <button onclick="filterCategory('snack')">🍪 간식</button>
-      <button onclick="filterCategory('kitchen')">🛋 주방용품</button>
-    </nav>
+    <nav id="category-nav"></nav>
 
 
     <!-- iframe 삽입 -->
@@ -131,7 +126,7 @@
       allow="clipboard-write"
       allowfullscreen
       referrerpolicy="no-referrer"
-      style="width: 100%; max-width: 960px; border: none; display: block; margin: 0 auto;"
+      style="width: 100%; max-width: 970px; border: none; display: block; margin: 0 auto;"
     ></iframe>
     </div>
   </main>
@@ -165,19 +160,6 @@
       }
     });
 
-    function filterCategory(korCategory) {
-      const categoryMap = {
-        "전체": "all",
-        "과일": "fruit",
-        "간식": "snack",
-        "주방용품": "kitchen"
-      };
-  
-      const category = categoryMap[korCategory] || "all";
-      const iframe = document.getElementById("item-table");
-      iframe.contentWindow.postMessage({ category }, "*");
-    }
-
     // ✅ 랜덤 메시지
     const messages = [
       "🍓 오늘은 딸기 어때요?",
@@ -190,5 +172,40 @@
     const randomIndex = Math.floor(Math.random() * messages.length);
     document.getElementById("daily-message").textContent = messages[randomIndex];
   </script>
+  <script>
+  window.addEventListener("message", function (event) {
+    const trusted = ["script.googleusercontent.com", "script.google.com"];
+    if (!trusted.some(origin => event.origin.includes(origin))) return;
+
+    const iframe = document.getElementById("item-table");
+
+    if (typeof event.data === "object") {
+      if (event.data.height) {
+        iframe.style.height = event.data.height + "px";
+      }
+
+      if (event.data.type === "categoryList") {
+        const nav = document.getElementById("category-nav");
+        nav.innerHTML = "";
+
+        const allBtn = document.createElement("button");
+        allBtn.textContent = "전체보기";
+        allBtn.onclick = () => {
+          iframe.contentWindow.postMessage({ category: "all" }, "*");
+        };
+        nav.appendChild(allBtn);
+
+        event.data.categories.forEach(cat => {
+          const btn = document.createElement("button");
+          btn.textContent = cat;
+          btn.onclick = () => {
+            iframe.contentWindow.postMessage({ category: cat }, "*");
+          };
+          nav.appendChild(btn);
+        });
+      }
+    }
+  });
+</script>
 </body>
 </html>
