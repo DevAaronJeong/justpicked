@@ -191,7 +191,7 @@ window.addEventListener("message", function (event) {
 });
 
 function postCategoryToIframe(category) {
-  iframe.contentWindow.postMessage({ category }, "https://script.google.com");
+  iframe.contentWindow.postMessage({ category }, "*");
 }
 
 function categoryToLabel(key) {
