@@ -158,7 +158,9 @@ window.addEventListener("message", function (event) {
     "https://script.googleusercontent.com"
   ];
 
-  if (!allowedOrigins.some(domain => event.origin.includes(domain))) {
+  const originValid = allowedPatterns.some(pattern => event.origin.startsWith(pattern) || event.origin.endsWith(".googleusercontent.com"));
+
+  if (!originValid) {
     console.warn("🚫 메시지 차단 - origin 불신:", event.origin);
     return;
   }
