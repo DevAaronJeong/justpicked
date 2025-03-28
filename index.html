@@ -219,37 +219,62 @@ window.addEventListener("message", function (event) {
 
   if (!trustedOrigins.includes(event.origin)) return;
 
-  // 카테고리 필터링용 높이 조절
+  // 🔁 높이 조정
   if (event.data.height) {
     iframe.style.height = event.data.height + "px";
   }
 
-  // 카테고리 목록 수신
-  if (event.data.categories) {
+  // 🔁 카테고리 목록 수신
+  if (event.data.categories && Array.isArray(event.data.categories)) {
     const nav = document.getElementById("category-nav");
-    nav.innerHTML = ""; // 기존 버튼 초기화
+    nav.innerHTML = ""; // 기존 버튼 제거
 
-    // 전체보기 버튼 추가
+    // ✅ 전체보기 버튼
     const allBtn = document.createElement("button");
-    allBtn.textContent = "전체보기";
+    allBtn.textContent = "✨ 전체보기";
     allBtn.onclick = () => postCategoryToIframe("all");
     nav.appendChild(allBtn);
 
-    // 동적 카테고리 버튼 생성
+    // ✅ 카테고리별 버튼 생성
     event.data.categories.forEach(cat => {
       const btn = document.createElement("button");
-      btn.textContent = cat;
+      btn.textContent = `${categoryToEmoji(cat)} ${categoryToLabel(cat)}`;
       btn.onclick = () => postCategoryToIframe(cat);
       nav.appendChild(btn);
     });
   }
 });
 
-// iframe에 카테고리 전송
+// ✅ iframe으로 카테고리 전송
 function postCategoryToIframe(category) {
   iframe.contentWindow.postMessage({ category }, "*");
 }
+
+// ✅ 감성 이름 변환 (필요 시 수정)
+function categoryToLabel(key) {
+  const labels = {
+    fruit: "과일",
+    snack: "간식",
+    kitchen: "주방용품",
+    protein: "단백질",
+    drink: "음료"
+  };
+  return labels[key] || key;
+}
+
+// ✅ 이모지 변환
+function categoryToEmoji(key) {
+  const emojis = {
+    fruit: "🍎",
+    snack: "🍪",
+    kitchen: "🧼",
+    protein: "💪",
+    drink: "🥤"
+  };
+  return emojis[key] || "🛒";
+}
 </script>
+
 
 </body>
 </html>
