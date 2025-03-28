@@ -138,15 +138,16 @@
   const iframe = document.getElementById("item-table");
 
   window.addEventListener("message", function (event) {
-    const trustedOrigins = [
-      "https://devaaronjeong.github.io",
-      "https://script.googleusercontent.com",
-      "https://script.google.com"
-    ];
-    if (!trustedOrigins.some(origin => event.origin.includes(origin))) {
+    if (!event.origin.includes("googleusercontent.com") && 
+        !event.origin.includes("script.google.com") && 
+        !event.origin.includes("devaaronjeong.github.io")) {
       console.warn("🚫 메시지 차단 - origin 불신:", event.origin);
       return;
     }
+  
+    // 기존 로직 이어서 실행
+  });
+
 
     const data = event.data;
 
