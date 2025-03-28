@@ -134,6 +134,19 @@
   <footer>
     © 2025 JustPicked | Powered by Coupang Partners
   </footer>
+  <script>
+    // ✅ 랜덤 메시지
+    const messages = [
+      "🍓 오늘은 딸기 어때요?",
+      "🍌 바나나는 아침 대용으로 최고!",
+      "🍅 제철 과일로 건강 챙기세요 🍊",
+      "🥤 단백질 보충, 지금이 타이밍!",
+      "🧼 깨끗한 주방을 위한 추천템 ✨",
+      "💖 오늘은 나를 위한 쇼핑 데이!"
+    ];
+    document.getElementById("daily-message").textContent =
+      messages[Math.floor(Math.random() * messages.length)];
+  </script>
 <script>
 // 👇 iframe을 미리 정의
 const iframe = document.getElementById("item-table");
