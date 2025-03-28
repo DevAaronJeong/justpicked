@@ -189,13 +189,13 @@ window.addEventListener("message", function (event) {
 
     const allBtn = document.createElement("button");
     allBtn.textContent = "✨ 전체보기";
-    allBtn.onclick = () => postCategoryToIframe("all");
+    allBtn.onclick = () => sendCategoryToIframe("all");
     nav.appendChild(allBtn);
 
     data.categories.forEach(cat => {
       const btn = document.createElement("button");
       btn.textContent = `${categoryToEmoji(cat)} ${categoryToLabel(cat)}`;
-      btn.onclick = () => postCategoryToIframe(cat);
+      btn.onclick = () => sendCategoryToIframe(cat);
       nav.appendChild(btn);
     });
   }
