@@ -172,6 +172,19 @@ window.addEventListener("message", function (event) {
     iframe.style.height = data.height + "px";
   }
 
+
+  // ✅ iframe이 준비되면 카테고리 다시 보냄
+  let iframeReady = false;
+  let latestCategory = "all";
+  
+  window.addEventListener("message", function (event) {
+    if (event.data.type === "iframeReady") {
+      console.log("✅ iframe에서 준비 완료 수신");
+      iframeReady = true;
+      // 마지막으로 클릭한 카테고리 다시 전달
+      iframe.contentWindow.postMessage({ category: latestCategory }, "https://script.google.com");
+    }
+  
   if (data.type === "categoryList" && Array.isArray(data.categories)) {
     const nav = document.getElementById("category-nav");
     nav.innerHTML = "";
@@ -190,8 +203,14 @@ window.addEventListener("message", function (event) {
   }
 });
 
-function postCategoryToIframe(category) {
-  iframe.contentWindow.postMessage({ category }, "*");
+function sendCategoryToIframe(category) {
+  latestCategory = category;
+  if (iframeReady) {
+    console.log("📤 부모 → iframe: 카테고리 전송:", category);
+    iframe.contentWindow.postMessage({ category }, "https://script.google.com");
+  } else {
+    console.warn("⚠️ iframe 아직 로드되지 않음. 카테고리 보류:", category);
+  }
 }
 
 function categoryToLabel(key) {
