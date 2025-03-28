@@ -165,9 +165,11 @@
       }
     });
 
-    function filterCategory(cat) {
-      alert(`'${cat}' 카테고리 필터는 iframe 내부 구현 필요`);
+    function filterCategory(category) {
+      const iframe = document.getElementById("item-table");
+      iframe.contentWindow.postMessage({ category }, "*");
     }
+
 
     function searchItems() {
       const keyword = document.getElementById('searchInput').value;
