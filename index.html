@@ -135,69 +135,69 @@
     © 2025 JustPicked | Powered by Coupang Partners
   </footer>
 <script>
-    window.addEventListener("message", function (event) {
-      const allowedOrigins = [
-        "devaaronjeong.github.io",
-        "script.google.com",
-        "googleusercontent.com"
-      ];
-    
-      if (!allowedOrigins.some(domain => event.origin.includes(domain))) {
-        console.warn("🚫 메시지 차단 - origin 불신:", event.origin);
-        return;
-      }
+window.addEventListener("message", function (event) {
+  const allowedOrigins = [
+    "devaaronjeong.github.io",
+    "script.google.com",
+    "googleusercontent.com"
+  ];
 
-    const data = event.data;
-
-    // 높이 조절
-    if (data.height && iframe) {
-      iframe.style.height = data.height + "px";
-    }
-
-    // 카테고리 버튼 생성
-    if (Array.isArray(data.categories)) {
-      const nav = document.getElementById("category-nav");
-      nav.innerHTML = "";
-
-      const allBtn = document.createElement("button");
-      allBtn.textContent = "✨ 전체보기";
-      allBtn.onclick = () => postCategoryToIframe("all");
-      nav.appendChild(allBtn);
-
-      data.categories.forEach(cat => {
-        const btn = document.createElement("button");
-        btn.textContent = `${categoryToEmoji(cat)} ${categoryToLabel(cat)}`;
-        btn.onclick = () => postCategoryToIframe(cat);
-        nav.appendChild(btn);
-      });
-    }
-  });
-
-  function postCategoryToIframe(category) {
-    iframe.contentWindow.postMessage({ category }, "*");
+  if (!allowedOrigins.some(domain => event.origin.includes(domain))) {
+    console.warn("🚫 메시지 차단 - origin 불신:", event.origin);
+    return;
   }
 
-  function categoryToLabel(key) {
-    const labels = {
-      fruit: "과일",
-      snack: "간식",
-      kitchen: "주방용품",
-      protein: "단백질",
-      drink: "음료"
-    };
-    return labels[key] || key;
+  const data = event.data;
+  const iframe = document.getElementById("item-table");
+
+  if (data.height && iframe) {
+    iframe.style.height = data.height + "px";
   }
 
-  function categoryToEmoji(key) {
-    const emojis = {
-      fruit: "🍎",
-      snack: "🍪",
-      kitchen: "🧼",
-      protein: "💪",
-      drink: "🥤"
-    };
-    return emojis[key] || "🛒";
+  if (Array.isArray(data.categories)) {
+    const nav = document.getElementById("category-nav");
+    nav.innerHTML = "";
+
+    const allBtn = document.createElement("button");
+    allBtn.textContent = "✨ 전체보기";
+    allBtn.onclick = () => postCategoryToIframe("all");
+    nav.appendChild(allBtn);
+
+    data.categories.forEach(cat => {
+      const btn = document.createElement("button");
+      btn.textContent = `${categoryToEmoji(cat)} ${categoryToLabel(cat)}`;
+      btn.onclick = () => postCategoryToIframe(cat);
+      nav.appendChild(btn);
+    });
   }
+});
+
+function postCategoryToIframe(category) {
+  const iframe = document.getElementById("item-table");
+  iframe.contentWindow.postMessage({ category }, "*");
+}
+
+function categoryToLabel(key) {
+  const labels = {
+    fruit: "과일",
+    snack: "간식",
+    kitchen: "주방용품",
+    protein: "단백질",
+    drink: "음료"
+  };
+  return labels[key] || key;
+}
+
+function categoryToEmoji(key) {
+  const emojis = {
+    fruit: "🍎",
+    snack: "🍪",
+    kitchen: "🧼",
+    protein: "💪",
+    drink: "🥤"
+  };
+  return emojis[key] || "🛒";
+}
 </script>
 
 
