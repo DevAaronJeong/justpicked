@@ -79,21 +79,6 @@
       background-color: #ffc8d2;
     }
 
-    .search-filter {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-
-    .search-filter input {
-      padding: 8px;
-      width: 220px;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      font-size: 14px;
-    }
     
     .iframe-wrapper {
       max-width: 960px;
@@ -127,6 +112,8 @@
   <main>
     <h1>✨ 오늘 이것만 있어도 꽤 괜찮은 하루 ✨</h1>
 
+    <div id="daily-message" style="text-align: center; font-size: 16px; margin-top: -10px; margin-bottom: 30px; color: #5f3d47;"></div>
+
     <nav>
       <button onclick="filterCategory('all')">전체보기</button>
       <button onclick="filterCategory('fruit')">🍎 과일</button>
@@ -134,9 +121,6 @@
       <button onclick="filterCategory('kitchen')">🛋 주방용품</button>
     </nav>
 
-    <div class="search-filter">
-      <input type="text" id="searchInput" oninput="searchItems()" placeholder="상품명을 입력하세요...">
-    </div>
 
     <!-- iframe 삽입 -->
     <div class="iframe-wrapper">
@@ -189,6 +173,17 @@
       const keyword = document.getElementById('searchInput').value;
       console.log(`검색: ${keyword}`);
     }
+    // ✅ 랜덤 메시지
+    const messages = [
+      "🍓 오늘은 딸기 어때요?",
+      "🍌 바나나는 아침 대용으로 최고!",
+      "🍅 제철 과일로 건강 챙기세요 🍊",
+      "🥤 단백질 보충, 지금이 타이밍!",
+      "🧼 깨끗한 주방을 위한 추천템 ✨",
+      "💖 오늘은 나를 위한 쇼핑 데이!"
+    ];
+    const randomIndex = Math.floor(Math.random() * messages.length);
+    document.getElementById("daily-message").textContent = messages[randomIndex];
   </script>
 </body>
 </html>
